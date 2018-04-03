@@ -18,9 +18,9 @@ var TOTAL_GAP = (BAR_WIDTH + BARS_GAP); // расстояние, включаю�
 var NOTE_AND_BAR_X = CLOUD_X + GAP * 3; // координата 'x' для колонки и соответсвующих ей записей
 
 // ф-ция отрисовки окна
-var renderCloud = function (ctx, x, y, color) {
+var renderCloud = function (ctx, x, y, cloudWidth, cloudHeihgt, color) {
   ctx.fillStyle = color;
-  ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+  ctx.fillRect(x, y, cloudWidth, cloudHeihgt);
 };
 
 // ф-ция, определяющая максимальное значение в массиве
@@ -42,28 +42,26 @@ var getRandomNumber = function (min, max) {
 
 // ф-ция отрисовки статистики
 window.renderStatistics = function (ctx, names, times) {
-  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.3)');
-  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
+  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, CLOUD_WIDTH, CLOUD_HEIGHT, 'rgba(0, 0, 0, 0.3)');
+  renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_WIDTH, CLOUD_HEIGHT, '#fff');
 
   ctx.fillStyle = '#000';
   ctx.font = '16px PT Mono';
   ctx.fillText('Ура вы победили!', VICTORY_TEXT_X, VICTORY_TEXT_Y);
   ctx.fillText('Список результатов:', VICTORY_TEXT_X, VICTORY_TEXT_Y + GAP + FONT_GAP);
 
-  var maxTime = getMaxElement(times); // максимальное время прохождение игры
+  var maxTime = getMaxElement(times);
   // отрисовка каждой из колонок и соответсвующих подписей при помощи цикла
   for (var i = 0; i < names.length; i++) {
     var currentBarHeight = Math.round(times[i]) * MAX_BAR_HEIGHT / maxTime; // высота колонки, соответствующей текущему результату
     ctx.fillStyle = '#000';
     ctx.fillText(names[i], NOTE_AND_BAR_X + TOTAL_GAP * i, NAMES_Y + MAX_BAR_HEIGHT);
     ctx.fillText(Math.round(times[i]), NOTE_AND_BAR_X + TOTAL_GAP * i, MAX_TIME_NOTE_Y + MAX_BAR_HEIGHT - currentBarHeight);
-    // задаем прозрачность колонок
-    if (names[i] === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      var rgba = getRandomNumber(0.1, 0.9);
-      ctx.fillStyle = 'rgba(0, 0, 255, ' + rgba + ')';
-    }
-    ctx.fillRect(NOTE_AND_BAR_X + TOTAL_GAP * i, MAX_BAR_Y + MAX_BAR_HEIGHT - currentBarHeight, BAR_WIDTH, currentBarHeight);
+    // задаем прозрачность колонок (при помощи тернарного оператора)
+    ctx.fillStyle = (names[i] === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255, ' + getRandomNumber(0.1, 0.9) + ')';
+    // присваиваем цвету колонок отдельную переменную
+    var barFillStyle = ctx.fillStyle;
+    // вызываем ф-цию для отрисовки колонок с соответвующими аргументами
+    renderCloud(ctx, NOTE_AND_BAR_X + TOTAL_GAP * i, MAX_BAR_Y + MAX_BAR_HEIGHT - currentBarHeight, BAR_WIDTH, currentBarHeight, barFillStyle);
   }
 };
