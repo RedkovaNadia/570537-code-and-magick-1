@@ -24,12 +24,12 @@ var renderCloud = function (ctx, x, y, color) {
 };
 
 // ф-ция, определяющая максимальное значение в массиве
-var getMaxElement = function (times) {
-  var maxElement = times[0];
+var getMaxElement = function (array) {
+  var maxElement = array[0];
 
-  for (var i = 1; i < times.length; i++) {
-    if (times[i] > maxElement) {
-      maxElement = times[i];
+  for (var i = 1; i < array.length; i++) {
+    if (array[i] > maxElement) {
+      maxElement = array[i];
     }
   }
   return maxElement;
