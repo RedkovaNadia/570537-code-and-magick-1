@@ -30,7 +30,7 @@ var generateWizardsArray = function () {
 // поиск нужного блока шаблона в разметке
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
-// ф-ция отрисовки волшебника на основе шаблона
+// ф-ция отрисовки элемента волшебника на основе шаблона
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
 
