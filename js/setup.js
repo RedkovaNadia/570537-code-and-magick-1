@@ -64,7 +64,6 @@ similarWizardsList.appendChild(documentFragment);
 // убираем класс .hidden у блока похожих волшебников
 userDialog.querySelector('.setup-similar').classList.remove('hidden');
 
-// --------------------
 var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = setup.querySelector('.setup-close');
@@ -77,25 +76,32 @@ var setupFireballWrap = document.querySelector('.setup-fireball-wrap');
 
 var setupWizardInput = document.querySelector('.setup-player').querySelectorAll('input');
 
+// ф-ция-обработчик, которая закрывает окно настройки по нажатию на esc (и не закрывает, если инпут ввода имени в фокусе)
 var onPopupEscPress = function (evt) {
   if (setupUserName === document.activeElement) {
     evt.stopPropagation();
-    // --console.log(1);
   } else if (evt.keyCode === ESC_KEYCODE) {
     closePopup();
   }
 };
 
+// ф-ция, открывающая попап (добавляется обработчик onPopupEscPress)
 var openPopup = function () {
   setup.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
+  wizardEyes.addEventListener('click', onWizardEyesClick);
+  setupFireballWrap.addEventListener('click', onSetupFireballWrap);
 };
 
+// ф-ция, открывающая попап (удаляется обработчик onPopupEscPress)
 var closePopup = function () {
   setup.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
+  wizardEyes.removeEventListener('click', onWizardEyesClick);
+  setupFireballWrap.removeEventListener('click', onSetupFireballWrap);
 };
 
+// ф-ция - обработчик, меняющая цвет глаз волшебника при клике (синхронизирует данные скрытого инпута)
 var onWizardEyesClick = function () {
   var randomEyesColorElement = WIZARD_EYES_COLORS[getRandomIndex(WIZARD_EYES_COLORS)];
   wizardEyes.style.fill = randomEyesColorElement;
@@ -103,6 +109,7 @@ var onWizardEyesClick = function () {
   // --console.log('color');
 };
 
+// ф-ция - обработчик, меняющая цвет фаербола при клике (синхронизирует данные скрытого инпута)
 var onSetupFireballWrap = function () {
   var randomFireballWrapElement = FIREBALL_WRAP_COLORS[getRandomIndex(FIREBALL_WRAP_COLORS)];
   setupFireballWrap.style.background = randomFireballWrapElement;
@@ -130,6 +137,3 @@ setupClose.addEventListener('keydown', function (evt) {
   }
 });
 
-wizardEyes.addEventListener('click', onWizardEyesClick);
-
-setupFireballWrap.addEventListener('click', onSetupFireballWrap);
