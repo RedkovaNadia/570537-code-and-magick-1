@@ -81,24 +81,24 @@ var onPopupEscPress = function (evt) {
   if (setupUserName === document.activeElement) {
     evt.stopPropagation();
   } else if (evt.keyCode === ESC_KEYCODE) {
-    closePopup();
+    onSetupCloseClick();
   }
 };
 
 // ф-ция, открывающая попап (добавляется обработчик onPopupEscPress)
-var openPopup = function () {
+var onSetupOpenClick = function () {
   setup.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
   wizardEyes.addEventListener('click', onWizardEyesClick);
-  setupFireballWrap.addEventListener('click', onSetupFireballWrap);
+  setupFireballWrap.addEventListener('click', onSetupFireballWrapClick);
 };
 
 // ф-ция, открывающая попап (удаляется обработчик onPopupEscPress)
-var closePopup = function () {
+var onSetupCloseClick = function () {
   setup.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
   wizardEyes.removeEventListener('click', onWizardEyesClick);
-  setupFireballWrap.removeEventListener('click', onSetupFireballWrap);
+  setupFireballWrap.removeEventListener('click', onSetupFireballWrapClick);
 };
 
 // ф-ция - обработчик, меняющая цвет глаз волшебника при клике (синхронизирует данные скрытого инпута)
@@ -110,30 +110,27 @@ var onWizardEyesClick = function () {
 };
 
 // ф-ция - обработчик, меняющая цвет фаербола при клике (синхронизирует данные скрытого инпута)
-var onSetupFireballWrap = function () {
+var onSetupFireballWrapClick = function () {
   var randomFireballWrapElement = FIREBALL_WRAP_COLORS[getRandomIndex(FIREBALL_WRAP_COLORS)];
   setupFireballWrap.style.background = randomFireballWrapElement;
   setupWizardInput[2].value = randomFireballWrapElement;
   // --console.log('colorWrap');
 };
 
-setupOpen.addEventListener('click', function () {
-  openPopup();
-});
+setupOpen.addEventListener('click', onSetupOpenClick);
 
-setupClose.addEventListener('click', function () {
-  closePopup();
-});
+setupClose.addEventListener('click', onSetupCloseClick);
+
 
 setupOpen.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
-    openPopup();
+    onSetupOpenClick();
   }
 });
 
 setupClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
-    closePopup();
+    onSetupCloseClick();
   }
 });
 
