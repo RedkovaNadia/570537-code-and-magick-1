@@ -106,7 +106,6 @@ var onWizardEyesClick = function () {
   var randomEyesColorElement = WIZARD_EYES_COLORS[getRandomIndex(WIZARD_EYES_COLORS)];
   wizardEyes.style.fill = randomEyesColorElement;
   setupWizardInput[1].value = randomEyesColorElement;
-  // --console.log('color');
 };
 
 // ф-ция - обработчик, меняющая цвет фаербола при клике (синхронизирует данные скрытого инпута)
@@ -114,7 +113,6 @@ var onSetupFireballWrapClick = function () {
   var randomFireballWrapElement = FIREBALL_WRAP_COLORS[getRandomIndex(FIREBALL_WRAP_COLORS)];
   setupFireballWrap.style.background = randomFireballWrapElement;
   setupWizardInput[2].value = randomFireballWrapElement;
-  // --console.log('colorWrap');
 };
 
 setupOpen.addEventListener('click', onSetupOpenClick);
